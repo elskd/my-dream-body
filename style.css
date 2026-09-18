@@ -38,58 +38,28 @@ button,input,select{font:inherit}button{cursor:pointer}img{display:block;max-wid
 .logo{font-size:19px}.navLinks button{font-size:12px}.navQuote span{font-size:7px}.searchBox{font-size:11px}.profileMini{font-size:10px}.eyebrow{font-size:8px}.pageTitle p{font-size:12px}.todayPill{font-size:10px}.cardKicker{font-size:8px}.heroCard p{font-size:11px}.progressRing span{font-size:8px}.heroStats span{font-size:10px}.heroStats b{font-size:17px}.wellnessHero button{font-size:10px}.panelHead h3,.sectionTop h3{font-size:17px}.panelHead button,.sectionTop>button:not(.primaryBtn){font-size:10px}.statusDot{font-size:9px}.macroTop{font-size:11px}.macroTop b{font-size:11px}.macroTop small{font-size:8px}.mealRow strong{font-size:10px}.mealRow span{font-size:9px}.wideAction,.primaryWide{font-size:10px}.workoutMini span,.workoutMini p{font-size:9px}.workoutMini h4{font-size:15px}.workoutMini button{font-size:9px}.tinyPill,.tag{font-size:8px}.weightNumber span{font-size:10px}.weightNumber b{font-size:9px}.inspirationPanel p{font-size:13px}.inspirationPanel span{font-size:8px}.segmented button{font-size:10px}.primaryBtn{font-size:9px}.dayDate span{font-size:8px}.dayDate b{font-size:10px}.smallMeal strong,.plannedWorkout strong{font-size:9px}.smallMeal span,.plannedWorkout span{font-size:8px}.plusLine{font-size:9px}.kbuHero p,.fridgeHero p{font-size:10px}.remaining span,.fridgeBubble span{font-size:8px}.fourStats span{font-size:9px}.fourStats small{font-size:8px}.suggestion strong{font-size:10px}.suggestion span{font-size:8px}.contentBody h4{font-size:12px}.contentBody p{font-size:9px}.outlineBtn{font-size:9px}.fridgeRow strong{font-size:10px}.fridgeRow span{font-size:8px}.fridgeRow button{font-size:8px}.numberCircle{font-size:10px}.exerciseCards h4,.workoutCards h4{font-size:11px}.exerciseCards p,.workoutCards p{font-size:9px}.logRow strong{font-size:10px}.logRow span{font-size:9px}.logRow>b{font-size:11px}.progressTabs button{font-size:9px}.progressBig small{font-size:12px}.progressHero p{font-size:9px}.miniGoal span{font-size:9px}.bodyStats span,.bodyStats small{font-size:9px}.profileCard>p{font-size:10px}.profileCard label,.targetForm label{font-size:9px}.settingRow{font-size:10px}.moodPanel p{font-size:10px}.modalBox label{font-size:9px}
 @media(max-width:760px){.mobileHeader .logo{font-size:17px}.pageTitle p{font-size:10px}.contentBody h4{font-size:10px}.mobileNav button:not(.addFloat){font-size:8px}}
 
-/* Readability pass */
-.pageMain{font-size:14px}
-.searchBox{font-size:13px}
-.navLinks button{font-size:14px;height:54px}
-.logo{font-size:21px}
-.pageTitle h1{font-size:42px}
-.pageTitle p{font-size:14px}
-.eyebrow,.cardKicker{font-size:9px}
-.todayPill,.iconBtn,.profileMini{font-size:12px}
-.heroCard h2{font-size:34px}
-.heroCard p{font-size:13px}
-.progressRing strong{font-size:29px}.progressRing span{font-size:9px}
-.heroStats span{font-size:11px}.heroStats b{font-size:21px}
-.panelHead h3,.sectionTop h3{font-size:21px}
-.panelHead button,.sectionTop>button:not(.primaryBtn){font-size:12px}
-.statusDot{font-size:10px}
-.macroTop{font-size:12px}.macroTop b{font-size:13px}.macroTop small{font-size:10px}
-.mealRow strong{font-size:12px}.mealRow span{font-size:10px}
-.wideAction,.primaryWide{font-size:12px;height:46px}
-.workoutMini span,.workoutMini p{font-size:10px}.workoutMini h4{font-size:18px}.workoutMini button{font-size:10px}
-.tinyPill,.tag{font-size:9px}
-.segmented button{font-size:12px;height:38px}
-.primaryBtn{font-size:11px;padding:11px 14px}
-.dayDate span{font-size:9px}.dayDate b{font-size:11px}
-.smallMeal strong,.plannedWorkout strong{font-size:10px}.smallMeal span,.plannedWorkout span{font-size:9px}
-.plusLine{font-size:11px}
-.kbuHero h2,.fridgeHero h2{font-size:31px}.kbuHero p,.fridgeHero p{font-size:12px}
-.remaining strong,.fridgeBubble{font-size:29px}.remaining span,.fridgeBubble span{font-size:9px}
-.fourStats span{font-size:10px}.fourStats strong{font-size:28px}.fourStats small{font-size:9px}
-.contentBody h4{font-size:14px}.contentBody p{font-size:10px}.outlineBtn{font-size:10px}
-.fridgeRow strong{font-size:12px}.fridgeRow span{font-size:10px}.fridgeRow button{font-size:10px}
-.exerciseCards h4,.workoutCards h4{font-size:13px}.exerciseCards p,.workoutCards p{font-size:10px}
-.logRow strong{font-size:12px}.logRow span{font-size:10px}.logRow>b{font-size:12px}
-.progressTabs button{font-size:11px}
-.progressBig{font-size:60px}.progressHero p{font-size:10px}
-.miniGoal span{font-size:10px}.miniGoal strong{font-size:25px}
-.bodyStats span,.bodyStats small{font-size:10px}.bodyStats strong{font-size:25px}
-.inspirationPanel p{font-size:15px}.inspirationPanel span{font-size:9px}
-.profileCard h2{font-size:31px}.profileCard>p{font-size:11px}
-.profileCard label,.targetForm label{font-size:10px}
-.profileCard input,.targetForm input{font-size:13px}
-.settingRow{font-size:12px}
-.moodPanel h3{font-size:25px}.moodPanel p{font-size:11px}
-.modalBox label{font-size:10px}.modalBox input,.modalBox select{font-size:13px}
-.modalTitle h2{font-size:27px}
-.mdbToast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:500;background:#211e28;color:#fff;padding:13px 18px;border-radius:14px;font-size:13px;box-shadow:0 12px 35px #0003}
-@media(max-width:760px){
- .pageMain{font-size:14px}.pageTitle h1{font-size:32px}.pageTitle p{font-size:12px}
- .heroCard h2{font-size:29px}.heroCard p{font-size:12px}
- .panelHead h3,.sectionTop h3{font-size:19px}.mealRow strong{font-size:12px}.mealRow span{font-size:10px}
- .segmented button{font-size:11px}.kbuHero h2,.fridgeHero h2{font-size:25px}
- .contentBody h4{font-size:12px}.contentBody p{font-size:9px}
- .workoutMini h4{font-size:16px}.inspirationPanel p{font-size:13px}
- .mobileNav button:not(.addFloat){font-size:9px}.mobileNav .navIcon svg{width:21px;height:21px}
+
+/* Ordinary text only — headings and controls remain unchanged */
+.pageMain p,
+.pageMain .mealRow span,
+.pageMain .mealRow small,
+.pageMain .workoutMini span,
+.pageMain .workoutMini p,
+.pageMain .smallMeal span,
+.pageMain .plannedWorkout span,
+.pageMain .contentBody p,
+.pageMain .fridgeRow span,
+.pageMain .exerciseCards p,
+.pageMain .workoutCards p,
+.pageMain .logRow span,
+.pageMain .progressHero p,
+.pageMain .miniGoal span,
+.pageMain .bodyStats span,
+.pageMain .bodyStats small,
+.pageMain .inspirationPanel p,
+.pageMain label,
+.pageMain .settingRow,
+.pageMain .statusDot {
+  font-size: 13px !important;
+  line-height: 1.45;
 }

@@ -101,7 +101,7 @@
     };
     return '<svg viewBox="0 0 24 24" aria-hidden="true">' + paths[name] + '</svg>';
   }
-  function iconButton(icon, label, action) { return '<button class="iconBtn" title="' + esc(label) + '" onclick="' + (action || 'MDB.toast("'+label+'")') + '">' + icon + '</button>'; }
+  function iconButton(icon, label, action) { return '<button class="iconBtn" title="' + esc(label) + '" onclick="' + action + '">' + icon + '</button>'; }
 
   function shell(content) {
     var items = [

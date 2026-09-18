@@ -144,7 +144,7 @@
 
     return shell(title("Привет, " + esc(p.name) + "!", "Сегодня не про идеальность. Сегодня — про тебя.") +
       '<section class="heroGrid">' +
-        '<article class="heroCard calorieHero"><div><span class="cardKicker">TODAY'S NUTRITION</span><h2>Твой баланс<br>на сегодня</h2><p>Спокойный контроль без лишнего давления.</p></div><div class="heroBottom">' + progressRing(t.k, p.cal) + '<div class="heroStats"><span>Съедено <b>' + t.k + '</b></span><span>Цель <b>' + p.cal + '</b></span></div></div></article>' +
+        '<article class="heroCard calorieHero"><div><span class="cardKicker">TODAY NUTRITION</span><h2>Твой баланс<br>на сегодня</h2><p>Спокойный контроль без лишнего давления.</p></div><div class="heroBottom">' + progressRing(t.k, p.cal) + '<div class="heroStats"><span>Съедено <b>' + t.k + '</b></span><span>Цель <b>' + p.cal + '</b></span></div></div></article>' +
         '<article class="heroCard wellnessHero"><span class="sun">✦</span><span class="cardKicker">YOUR DAILY NOTE</span><h2>Маленькие<br>действия = <i>большой</i><br>результат.</h2><button onclick="MDB.go(\'progress\')">Мой прогресс <span>→</span></button></article>' +
       '</section>' +
       '<section class="dashboardGrid">' +

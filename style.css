@@ -63,3 +63,49 @@ button,input,select{font:inherit}button{cursor:pointer}img{display:block;max-wid
   font-size: 13px !important;
   line-height: 1.45;
 }
+
+/* FINAL: ordinary interface text only. Headings, buttons, icons and layout are untouched. */
+.pageMain .panelHead h3,
+.pageMain .sectionTop h3,
+.pageMain .pageTitle h1,
+.pageMain .heroCard h2,
+.pageMain .workoutMini h4,
+.pageMain .contentBody h4,
+.pageMain .exerciseCards h4,
+.pageMain .workoutCards h4,
+.pageMain .profileCard h2,
+.pageMain .moodPanel h3 { /* preserve headings */ }
+
+.pageMain .mealRow strong,
+.pageMain .smallMeal strong,
+.pageMain .plannedWorkout strong,
+.pageMain .fridgeRow strong,
+.pageMain .suggestion strong,
+.pageMain .logRow strong,
+.pageMain .fourStats strong,
+.pageMain .bodyStats strong,
+.pageMain .weightNumber span,
+.pageMain .weightNumber b {
+  font-size: 14px !important;
+}
+.pageMain p,
+.pageMain .mealRow span,
+.pageMain .mealRow small,
+.pageMain .workoutMini span,
+.pageMain .workoutMini p,
+.pageMain .smallMeal span,
+.pageMain .plannedWorkout span,
+.pageMain .contentBody p,
+.pageMain .fridgeRow span,
+.pageMain .exerciseCards p,
+.pageMain .workoutCards p,
+.pageMain .logRow span,
+.pageMain .progressHero p,
+.pageMain .miniGoal span,
+.pageMain .bodyStats span,
+.pageMain .bodyStats small,
+.pageMain .inspirationPanel p,
+.pageMain label {
+  font-size: 14px !important;
+  line-height: 1.45;
+}

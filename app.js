@@ -1,82 +1,248 @@
+(function () {
+  "use strict";
 
-const KEY="mdb-v3";
-const photos={
-salmon:"https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80",
-yogurt:"https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80",
-avocado:"https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=600&q=80",
-pasta:"https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?auto=format&fit=crop&w=600&q=80",
-salad:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80",
-workout:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80"
-};
-function photo(n){n=(n||"").toLowerCase();if(n.includes("лосос"))return photos.salmon;if(n.includes("йогурт")||n.includes("творог"))return photos.yogurt;if(n.includes("авокадо")||n.includes("тост"))return photos.avocado;if(n.includes("паст"))return photos.pasta;if(n.includes("салат"))return photos.salad;return photos.avocado}
-function date(d){var x=new Date();x.setHours(12,0,0,0);x.setDate(x.getDate()+d);return x.toISOString().slice(0,10)}
-function esc(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-function demo(){return {p:{name:"Эля",target:52,goal:"Плавное снижение веса",cal:1500,pro:110,fat:55,carb:145,accent:"#cdb9df"},
-foods:[
-{id:"f1",name:"Омлет с сыром и авокадо",cal:390,pro:27,fat:27,carb:12,tag:"Завтрак"},
-{id:"f2",name:"Курица с рисом и овощами",cal:430,pro:38,fat:10,carb:46,tag:"Высокий белок"},
-{id:"f3",name:"Греческий йогурт с ягодами",cal:180,pro:18,fat:4,carb:18,tag:"Перекус"},
-{id:"f4",name:"Тост с тунцом и авокадо",cal:360,pro:31,fat:15,carb:28,tag:"Высокий белок"},
-{id:"f5",name:"Паста с курицей",cal:510,pro:35,fat:14,carb:58,tag:"Ужин"},
-{id:"f6",name:"Салат с тунцом",cal:290,pro:30,fat:12,carb:15,tag:"Лёгкий"},
-{id:"f7",name:"Лосось с картофелем",cal:470,pro:34,fat:22,carb:34,tag:"Ужин"}],
-meals:[
-{id:"m1",name:"Омлет с сыром и авокадо",date:date(0),cal:390,pro:27,fat:27,carb:12,eaten:true},
-{id:"m2",name:"Курица с рисом и овощами",date:date(0),cal:430,pro:38,fat:10,carb:46,eaten:true},
-{id:"m3",name:"Греческий йогурт с ягодами",date:date(0),cal:180,pro:18,fat:4,carb:18,eaten:false},
-{id:"m4",name:"Лосось с картофелем",date:date(0),cal:470,pro:34,fat:22,carb:34,eaten:false}],
-fridge:[{id:"f1",have:true},{id:"f2",have:true},{id:"f3",have:true},{id:"f4",have:false},{id:"f7",have:false}],
-ex:[
-{id:"e1",name:"Приседания с гантелями",muscle:"Ноги · ягодицы",machine:"Гантели",sets:4,reps:12},
-{id:"e2",name:"Ягодичный мост",muscle:"Ягодицы",machine:"Скамья",sets:4,reps:12},
-{id:"e3",name:"Тяга гантели",muscle:"Спина",machine:"Гантель",sets:3,reps:10},
-{id:"e4",name:"Жим гантелей лёжа",muscle:"Грудь · руки",machine:"Гантели",sets:3,reps:10}],
-workouts:[{id:"w1",name:"Ягодицы + ноги",ex:["e1","e2"]},{id:"w2",name:"Верх тела",ex:["e3","e4"]}],
-wplan:[{id:"wp1",name:"Ягодицы + ноги",date:date(0),done:false}],
-logs:[{e:"e1",date:date(-21),weight:8,reps:10},{e:"e1",date:date(-14),weight:10,reps:10},{e:"e1",date:date(-7),weight:12,reps:10},{e:"e1",date:date(0),weight:14,reps:10}],
-weights:[{date:date(-21),v:55.1},{date:date(-14),v:54.5},{date:date(-7),v:53.7},{date:date(0),v:53.2}],
-measures:[{date:date(-21),w:70,h:98,c:91},{date:date(-14),w:69,h:97,c:90},{date:date(-7),w:68,h:97,c:90},{date:date(0),w:67,h:96,c:89}],
-settings:{nutrition:true,training:true,progress:true},tags:{food:["Высокий белок","Низкокалорийное","Сладкое"],product:["Белок","Углеводы","Полезные жиры"]}}}
-var S;try{S=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){S=null}if(!S||!S.p||!S.foods||!S.meals||!S.fridge||!S.ex||!S.workouts||!S.wplan||!S.logs||!S.weights||!S.measures||!S.settings||!S.tags)S=demo();
-var page="home",tab="plan";
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){};render()}
-function navIcon(i){var a=[
-'<path d="M4 10.5 12 4l8 6.5v8a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/>',
-'<path d="M7 4h10v16H7z"/><path d="M9 8h6M9 12h6M9 16h4"/>',
-'<circle cx="7" cy="7" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="m9 8 2 7m4-7-2 7M9 7h6"/>',
-'<path d="M5 19V9m5 10V5m5 14v-7m5 7V7"/>',
-'<circle cx="12" cy="12" r="3"/><path d="M12 3v2m0 14v2M3 12h2m14 0h2"/>'];return '<span><svg viewBox="0 0 24 24">'+a[i]+'</svg></span>'}
-var nav=[["home","Главная",0],["nutrition","Питание",1],["training","Тренировки",2],["progress","Прогресс",3],["settings","Настройки",4]];
-function shell(content){var links=nav.filter(function(n){return n[0]==="home"||n[0]==="settings"||S.settings[n[0]]!==false}).map(function(n){return '<button class="'+(page===n[0]?"active":"")+'" onclick="go(\''+n[0]+'\')">'+navIcon(n[2])+'<label>'+n[1]+'</label></button>'}).join("");document.documentElement.style.setProperty("--accent",S.p.accent||"#cdb9df");return '<div class="app"><aside class="side"><div class="brand"><h2>My Dream Body <span>♡</span></h2><p>DISCIPLINE CREATES<br>THE LIFE YOU WANT</p></div><div class="nav">'+links+'</div><div class="sidePhoto"><span>Better<br>Choices<br>A Healthier<br>You ♡</span></div></aside><main class="main"><div class="topbar"><div class="search">⌕ &nbsp; Поиск...</div><div class="user">Привет, '+esc(S.p.name)+'! ♡ <span class="avatar">'+esc(S.p.name[0])+'</span></div></div><div class="mobileHead"><b>My Dream Body <span>♡</span></b><span>♧</span></div>'+content+'</main><nav class="mobile">'+links+'</nav></div>'}
-function go(p){page=p;tab=p==="nutrition"?"plan":p==="training"?"plan":"";render()}
-function head(t,s){return '<div class="head"><div><h1>'+t+' <span>♡</span></h1><p>'+s+'</p></div><button class="date">▣ &nbsp; '+new Date().toLocaleDateString("ru-RU",{day:"numeric",month:"long"})+'⌄</button></div>'}
-function totals(){return S.meals.filter(function(m){return m.date===date(0)}).reduce(function(a,m){a.k+=m.cal;a.p+=m.pro;a.f+=m.fat;a.c+=m.carb;return a},{k:0,p:0,f:0,c:0})}
-function home(){var t=totals(),p=S.p,left=Math.max(0,p.cal-t.k),recent=S.weights[S.weights.length-1].v,meals=S.meals.filter(function(m){return m.date===date(0)});var mealHtml=meals.map(function(m){return '<div class="meal"><span class="pic" style="background-image:url(\''+photo(m.name)+'\')"></span><div class="mealInfo"><b>'+esc(m.name)+'</b><span>'+m.cal+' ккал · Б '+m.pro+' · Ж '+m.fat+' · У '+m.carb+'</span></div><input class="check" type="checkbox" '+(m.eaten?"checked":"")+' onchange="eat(\''+m.id+'\')"></div>'}).join("");return shell(head("Доброе утро, "+esc(p.name)+"!","Маленькие шаги каждый день — это большие результаты")+'<div class="grid"><section class="card span3"><div class="title"><b>КАЛОРИИ</b></div><div class="calFlex"><div class="ring"><strong>'+left+'</strong><span>осталось</span></div><div class="stats"><div><span>Съедено</span><b>'+t.k+'</b></div><div><span>Цель</span><b>'+p.cal+'</b></div></div></div></section><section class="card span3"><div class="title"><b>БЖУ</b></div><div class="macro">'+macro("Белки",t.p,p.pro)+macro("Жиры",t.f,p.fat)+macro("Углеводы",t.c,p.carb)+'</div></section><section class="card span3"><div class="title"><b>ВОДА</b></div><div class="bigNum">1,5 <small>/ 2 л</small></div><div class="muted">○ ○ ○ ● ●</div></section><section class="card span3"><div class="title"><b>ВЕС</b></div><div class="bigNum">'+recent+' <small>кг</small></div><div class="chart"><svg viewBox="0 0 300 120"><polyline points="0,75 45,62 90,72 135,55 180,63 225,38 270,45 300,28"/></svg></div><div class="muted">−1,9 кг за 3 недели</div></section><section class="card span7"><div class="title"><b>ПИТАНИЕ СЕГОДНЯ</b><button onclick="go(\'nutrition\')">Смотреть всё →</button></div>'+mealHtml+'<button class="btn fullBtn" onclick="go(\'nutrition\')">План питания</button></section><section class="card span5"><div class="title"><b>ТРЕНИРОВКА СЕГОДНЯ</b></div><div class="workout"><div class="workoutPic"></div><div><h3>Ягодицы + ноги</h3><p>◷ 45 мин · Сила</p><p>✓ Разминка</p><p>✓ Основная часть</p><p>✓ Заминка</p></div></div><button class="btn fullBtn" onclick="go(\'training\')">Открыть тренировку</button></section><section class="card span5"><div class="title"><b>МОЙ ПРОГРЕСС</b><button onclick="go(\'progress\')">Смотреть всё →</button></div><div class="chart"><svg viewBox="0 0 420 150"><polyline points="0,45 40,50 80,43 120,55 160,65 200,61 240,75 280,72 320,86 360,82 420,105"/></svg></div><div class="muted">Вес · последние 3 недели</div></section><section class="card span7"><div class="title"><b>БЛЮДА ПОД ОСТАВШЕЕСЯ КБЖУ</b></div><div class="recommend">'+S.foods.slice(0,3).map(function(f){return '<article class="food"><div class="photo" style="background-image:url(\''+photo(f.name)+'\')"></div><div><b>'+esc(f.name)+'</b><span>'+f.cal+' ккал · Б '+f.pro+' · Ж '+f.fat+' · У '+f.carb+'</span></div></article>'}).join("")+'</div></section></div>')}
-function macro(n,v,max){return '<div class="macroRow"><b>'+n+'</b><span>'+v+' / '+max+' г</span><div class="bar"><i style="width:'+Math.min(100,v/max*100)+'%"></i></div></div>'}
-function tabs(a){return '<div class="tabs">'+a.map(function(x){return '<button class="'+(tab===x[0]?"active":"")+'" onclick="tab=\''+x[0]+'\';render()">'+x[1]+'</button>'}).join("")+'</div>'}
-function nutrition(){var c=tab==="plan"?mealPlan():tab==="kbu"?kbu():tab==="fridge"?fridge():tab==="shopping"?shopping():library(tab==="products"?"Продукты":"Блюда");return shell(head("Питание","Планирование, продукты и холодильник")+tabs([["plan","План питания"],["kbu","КБЖУ"],["dishes","Блюда"],["products","Продукты"],["fridge","Холодильник"],["shopping","Список покупок"]])+c)}
-function mealPlan(){var days=[-2,-1,0,1,2,3,4].map(function(d){var dt=date(d),ms=S.meals.filter(function(m){return m.date===dt});return '<div class="day '+(d===0?"today":"")+'"><div class="dayTop"><span>'+new Date(dt).toLocaleDateString("ru-RU",{weekday:"short"})+'</span><b>'+new Date(dt).getDate()+'</b></div>'+ms.map(function(m){return '<div class="meal"><span class="pic" style="background-image:url(\''+photo(m.name)+'\')"></span><div class="mealInfo"><b>'+esc(m.name)+'</b><span>'+m.cal+' ккал</span></div><input class="check" type="checkbox" '+(m.eaten?"checked":"")+' onchange="eat(\''+m.id+'\')"></div>'}).join("")+'<button class="add" onclick="modal(\'meal\',\''+dt+'\')">+ Добавить</button></div>'}).join("");return '<section class="card"><div class="title"><b>ПЛАН ПИТАНИЯ</b><button class="btn" onclick="modal(\'meal\')">+ Добавить</button></div><div class="days">'+days+'</div></section>'}
-function kbu(){var t=totals(),p=S.p,arr=[["Калории",p.cal-t.k,"ккал"],["Белки",p.pro-t.p,"г"],["Жиры",p.fat-t.f,"г"],["Углеводы",p.carb-t.c,"г"]];return '<div class="metrics">'+arr.map(function(x){return '<div class="metric"><span>'+x[0]+'</span><strong>'+Math.max(0,Math.round(x[1]))+' '+x[2]+'</strong></div>'}).join("")+'</div><section class="card"><div class="title"><b>ЧТО ПОДОЙДЁТ ПОД ОСТАВШЕЕСЯ КБЖУ</b></div>'+S.foods.map(function(f){return '<div class="row"><div><b>'+esc(f.name)+'</b><br><span>'+f.cal+' ккал · Б '+f.pro+' · Ж '+f.fat+' · У '+f.carb+'</span></div><button class="btn" onclick="addMeal(\''+f.id+'\')">Добавить</button></div>'}).join("")+'</section>'}
-function library(title){return '<section class="card"><div class="title"><b>'+title.toUpperCase()+'</b><button class="btn" onclick="modal(\'food\')">+ Добавить</button></div><div class="library">'+S.foods.map(function(f){return '<article class="libraryCard"><div class="photo" style="background-image:url(\''+photo(f.name)+'\')"></div><div class="libraryBody"><span class="tag">'+esc(f.tag)+'</span><h3>'+esc(f.name)+'</h3><p>'+f.cal+' ккал · Б '+f.pro+' · Ж '+f.fat+' · У '+f.carb+'</p><button class="btn fullBtn" onclick="addMeal(\''+f.id+'\')">В рацион</button></div></article>'}).join("")+'</div></section>'}
-function fridge(){var r=S.fridge.map(function(x){return {x:x,f:S.foods.find(function(f){return f.id===x.id})}}).filter(function(x){return x.f});return '<section class="card split"><div><div class="sectionLabel">МОЙ ХОЛОДИЛЬНИК</div>'+r.filter(function(x){return x.x.have}).map(function(x){return '<div class="row"><div><b>'+esc(x.f.name)+'</b><br><span>'+x.f.cal+' ккал</span></div><button class="btn ghost" onclick="toggleFridge(\''+x.x.id+'\')">Есть</button></div>'}).join("")+'</div><div><div class="sectionLabel">НУЖНО КУПИТЬ</div>'+r.filter(function(x){return !x.x.have}).map(function(x){return '<div class="row"><div><b>'+esc(x.f.name)+'</b><br><span>Нужно купить</span></div><button class="btn" onclick="toggleFridge(\''+x.x.id+'\')">Куплено</button></div>'}).join("")+'</div></section>'}
-function shopping(){return fridge()}
-function training(){var c=tab==="plan"?trainPlan():tab==="exercises"?exercises():tab==="workouts"?workouts():trainProgress();return shell(head("Тренировки","План, упражнения и сила")+tabs([["plan","План"],["exercises","Упражнения"],["workouts","Тренировки"],["progress","Прогресс"]])+c)}
-function trainPlan(){return '<section class="card"><div class="title"><b>ПЛАН ТРЕНИРОВОК</b><button class="btn" onclick="modal(\'plan\')">+ Запланировать</button></div><div class="days">'+[0,1,2,3,4,5,6].map(function(d){var dt=date(d),ws=S.wplan.filter(function(x){return x.date===dt});return '<div class="day '+(d===0?"today":"")+'"><div class="dayTop"><span>'+new Date(dt).toLocaleDateString("ru-RU",{weekday:"short"})+'</span><b>'+new Date(dt).getDate()+'</b></div>'+ws.map(function(w){return '<div class="row"><b>'+esc(w.name)+'</b><button class="check" onclick="doneWorkout(\''+w.id+'\')">'+(w.done?"✓":"○")+'</button></div>'}).join("")+'<button class="add" onclick="modal(\'plan\',\''+dt+'\')">+ Добавить</button></div>'}).join("")+'</div></section>'}
-function exercises(){return '<section class="card"><div class="title"><b>УПРАЖНЕНИЯ</b><button class="btn" onclick="modal(\'exercise\')">+ Добавить</button></div><div class="exerciseGrid">'+S.ex.map(function(e){return '<article class="exerciseCard"><span class="tag">'+esc(e.muscle)+'</span><h3>'+esc(e.name)+'</h3><p>'+esc(e.machine)+' · '+e.sets+' × '+e.reps+'</p></article>'}).join("")+'</div></section>'}
-function workouts(){return '<section class="card"><div class="title"><b>МОИ ТРЕНИРОВКИ</b><button class="btn" onclick="modal(\'workout\')">+ Создать</button></div><div class="workoutGrid">'+S.workouts.map(function(w){return '<article class="workoutCard"><div class="cover"></div><h3>'+esc(w.name)+'</h3><p>'+w.ex.map(function(id){var e=S.ex.find(function(e){return e.id===id});return esc(e?e.name:"")}).join(" · ")+'</p></article>'}).join("")+'</div></section>'}
-function trainProgress(){return '<section class="card"><div class="title"><b>ПРОГРЕСС ПО УПРАЖНЕНИЯМ</b><button class="btn" onclick="modal(\'log\')">+ Результат</button></div>'+S.logs.slice().reverse().map(function(l){var e=S.ex.find(function(e){return e.id===l.e});return '<div class="row"><b>'+esc(e?e.name:"")+'</b><span>'+l.date+' · '+l.weight+' кг × '+l.reps+'</span></div>'}).join("")+'</section>'}
-function progress(){return shell(head("Прогресс","Вес и объёмы по датам")+'<div class="metrics">'+[['Текущий вес',S.weights[S.weights.length-1].v+" кг"],["Цель",S.p.target+" кг"],["Талия",S.measures[S.measures.length-1].w+" см"],["Бёдра",S.measures[S.measures.length-1].h+" см"]].map(function(x){return '<div class="metric"><span>'+x[0]+'</span><strong>'+x[1]+'</strong></div>'}).join("")+'</div><section class="card"><div class="title"><b>ВЕС</b><button class="btn" onclick="modal(\'weight\')">+ Добавить</button></div><div class="chart"><svg viewBox="0 0 700 220"><polyline points="0,175 230,130 460,80 690,35"/></svg></div>'+S.weights.slice().reverse().map(function(w){return '<div class="row"><span>'+w.date+'</span><b>'+w.v+' кг</b></div>'}).join("")+'</section><section class="card"><div class="title"><b>ОБЪЁМЫ</b><button class="btn" onclick="modal(\'measure\')">+ Добавить</button></div>'+S.measures.slice().reverse().map(function(m){return '<div class="row"><span>'+m.date+'</span><span>Талия '+m.w+' · Бёдра '+m.h+' · Грудь '+m.c+' см</span></div>'}).join("")+'</section>')}
-function settings(){return shell(head("Настройки","Профиль, цели, разделы и внешний вид")+'<div class="settings"><section class="card"><div class="title"><b>МОЙ ПРОФИЛЬ</b></div><form class="form" onsubmit="saveSettings(event)"><label>Имя<input name="name" value="'+esc(S.p.name)+'"></label><label>Целевой вес<input name="target" type="number" value="'+S.p.target+'"></label><label class="wide">Цель<input name="goal" value="'+esc(S.p.goal)+'"></label><label>Калории/день<input name="cal" type="number" value="'+S.p.cal+'"></label><label>Белки<input name="pro" type="number" value="'+S.p.pro+'"></label><label>Жиры<input name="fat" type="number" value="'+S.p.fat+'"></label><label>Углеводы<input name="carb" type="number" value="'+S.p.carb+'"></label><label>Акцент<input name="accent" type="color" value="'+S.p.accent+'"></label><button class="btn wide">Сохранить</button></form></section><section class="card"><div class="title"><b>РАЗДЕЛЫ</b></div>'+["nutrition","training","progress"].map(function(k){return '<div class="toggle"><b>'+({"nutrition":"Питание","training":"Тренировки","progress":"Прогресс"}[k])+'</b><button class="switch '+(S.settings[k]!==false?"on":"")+'" onclick="S.settings[k]=!S.settings[k];save()"><i></i></button></div>'}).join("")+'</section><section class="card"><div class="title"><b>ТЕГИ ДЛЯ БЛЮД</b></div>'+S.tags.food.map(function(t){return '<span class="tag">'+esc(t)+'</span> '}).join("")+'<button class="btn fullBtn" onclick="addTag(\'food\')">+ Добавить тег</button></section><section class="card"><div class="title"><b>ТЕГИ ДЛЯ ПРОДУКТОВ</b></div>'+S.tags.product.map(function(t){return '<span class="tag">'+esc(t)+'</span> '}).join("")+'<button class="btn fullBtn" onclick="addTag(\'product\')">+ Добавить тег</button></section></div>')}
-function modal(type,dt){var title={meal:"Приём пищи",food:"Блюдо / продукт",exercise:"Упражнение",workout:"Тренировка",plan:"План тренировки",log:"Результат упражнения",weight:"Вес",measure:"Замеры"}[type],b="";if(type==="meal")b='<form class="form" onsubmit="subMeal(event)"><label class="wide">Название<input name="name" required></label><label>Дата<input name="date" type="date" value="'+(dt||date(0))+'"></label><label>Калории<input name="cal" type="number" required></label><label>Белки<input name="pro" type="number"></label><label>Жиры<input name="fat" type="number"></label><label>Углеводы<input name="carb" type="number"></label><button class="btn wide">Добавить</button></form>';if(type==="food")b='<form class="form" onsubmit="subFood(event)"><label class="wide">Название<input name="name" required></label><label>Калории<input name="cal" type="number" required></label><label>Белки<input name="pro" type="number"></label><label>Жиры<input name="fat" type="number"></label><label>Углеводы<input name="carb" type="number"></label><label>Тег<input name="tag"></label><button class="btn wide">Сохранить</button></form>';if(type==="exercise")b='<form class="form" onsubmit="subEx(event)"><label class="wide">Название<input name="name" required></label><label>Группа мышц<input name="muscle"></label><label>Тренажёр<input name="machine"></label><label>Подходы<input name="sets" type="number"></label><label>Повторения<input name="reps" type="number"></label><button class="btn wide">Сохранить</button></form>';if(type==="workout")b='<form onsubmit="subWorkout(event)"><label>Название<input name="name" required></label>'+S.ex.map(function(x){return '<div class="row"><label><input type="checkbox" name="e" value="'+x.id+'"> '+esc(x.name)+'</label></div>'}).join("")+'<button class="btn">Создать</button></form>';if(type==="plan")b='<form class="form" onsubmit="subPlan(event)"><label>Дата<input name="date" type="date" value="'+(dt||date(0))+'"></label><label>Тренировка<select name="w">'+S.workouts.map(function(w){return '<option value="'+w.id+'">'+esc(w.name)+'</option>'}).join("")+'</select></label><button class="btn wide">Запланировать</button></form>';if(type==="log")b='<form class="form" onsubmit="subLog(event)"><label>Упражнение<select name="e">'+S.ex.map(function(x){return '<option value="'+x.id+'">'+esc(x.name)+'</option>'}).join("")+'</select></label><label>Дата<input name="date" type="date" value="'+date(0)+'"></label><label>Вес, кг<input name="weight" type="number" step=".5"></label><label>Повторения<input name="reps" type="number"></label><button class="btn wide">Сохранить</button></form>';if(type==="weight")b='<form class="form" onsubmit="subWeight(event)"><label>Дата<input name="date" type="date" value="'+date(0)+'"></label><label>Вес, кг<input name="v" type="number" step=".1" required></label><button class="btn wide">Сохранить</button></form>';if(type==="measure")b='<form class="form" onsubmit="subMeasure(event)"><label>Дата<input name="date" type="date" value="'+date(0)+'"></label><label>Талия<input name="w" type="number"></label><label>Бёдра<input name="h" type="number"></label><label>Грудь<input name="c" type="number"></label><button class="btn wide">Сохранить</button></form>';document.body.insertAdjacentHTML("beforeend",'<div class="modal"><div class="modalBox"><div class="modalHead"><h2>'+title+'</h2><button class="close" onclick="this.closest(\'.modal\').remove()">×</button></div>'+b+'</div></div>')}
-function eat(id){var m=S.meals.find(function(x){return x.id===id});if(m)m.eaten=!m.eaten;save()}function addMeal(id){var f=S.foods.find(function(x){return x.id===id});if(f)S.meals.push({id:"m"+Date.now(),name:f.name,date:date(0),cal:f.cal,pro:f.pro,fat:f.fat,carb:f.carb,eaten:false});save()}function toggleFridge(id){var x=S.fridge.find(function(x){return x.id===id});if(x)x.have=!x.have;save()}function doneWorkout(id){var x=S.wplan.find(function(x){return x.id===id});if(x)x.done=!x.done;save()}function closeModal(){var m=document.querySelector(".modal");if(m)m.remove();save()}function subMeal(e){e.preventDefault();var f=e.target;S.meals.push({id:"m"+Date.now(),name:f.name.value,date:f.date.value,cal:+f.cal.value,pro:+f.pro.value||0,fat:+f.fat.value||0,carb:+f.carb.value||0,eaten:false});closeModal()}function subFood(e){e.preventDefault();var f=e.target;S.foods.push({id:"f"+Date.now(),name:f.name.value,cal:+f.cal.value,pro:+f.pro.value||0,fat:+f.fat.value||0,carb:+f.carb.value||0,tag:f.tag.value});closeModal()}function subEx(e){e.preventDefault();var f=e.target;S.ex.push({id:"e"+Date.now(),name:f.name.value,muscle:f.muscle.value,machine:f.machine.value,sets:+f.sets.value||0,reps:+f.reps.value||0});closeModal()}function subWorkout(e){e.preventDefault();var f=e.target;var checked=f.querySelectorAll("[name=e]:checked"),ids=[];for(var i=0;i<checked.length;i++)ids.push(checked[i].value);S.workouts.push({id:"w"+Date.now(),name:f.name.value,ex:ids});closeModal()}function subPlan(e){e.preventDefault();var f=e.target,w=S.workouts.find(function(x){return x.id===f.w.value});if(w)S.wplan.push({id:"wp"+Date.now(),name:w.name,date:f.date.value,done:false});closeModal()}function subLog(e){e.preventDefault();var f=e.target;S.logs.push({e:f.e.value,date:f.date.value,weight:+f.weight.value,reps:+f.reps.value});closeModal()}function subWeight(e){e.preventDefault();var f=e.target;S.weights.push({date:f.date.value,v:+f.v.value});closeModal()}function subMeasure(e){e.preventDefault();var f=e.target;S.measures.push({date:f.date.value,w:f.w.value,h:f.h.value,c:f.c.value});closeModal()}function saveSettings(e){e.preventDefault();var f=e.target;S.p={...S.p,name:f.name.value,target:+f.target.value,goal:f.goal.value,cal:+f.cal.value,pro:+f.pro.value,fat:+f.fat.value,carb:+f.carb.value,accent:f.accent.value};save()}function addTag(t){var x=prompt("Название тега");if(x&&x.trim())S.tags[t].push(x.trim());save()}
-function render(){
-  var root=document.getElementById("app");
-  if(!root)return;
-  try{
-    root.innerHTML=page==="home"?home():page==="nutrition"?nutrition():page==="training"?training():page==="progress"?progress():settings();
-  }catch(err){
-    root.innerHTML='<div style="min-height:100vh;display:grid;place-items:center;padding:24px;background:#f7f3f0;font-family:Arial,sans-serif"><div style="max-width:520px;width:100%;background:#fffdfb;border:1px solid #e8dfdc;border-radius:24px;padding:32px;box-shadow:0 14px 40px rgba(39,28,35,.08)"><div style="font-size:12px;letter-spacing:1px;color:#948b8b">MY DREAM BODY</div><h1 style="font-family:Georgia,serif;font-size:34px;margin:10px 0">Приложение запускается…</h1><p style="color:#777;line-height:1.5">Произошла ошибка загрузки данных. Нажми «Начать заново» — приложение восстановит рабочие данные.</p><button onclick="try{localStorage.removeItem(KEY)}catch(e){};location.reload()" style="border:0;border-radius:12px;background:#cdb9df;padding:12px 18px;font-weight:600;cursor:pointer">Начать заново</button></div></div>';
-    console.error(err);
+  var KEY = "my-dream-body-v1";
+  var today = new Date();
+  var iso = function (offset) {
+    var d = new Date();
+    d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() + (offset || 0));
+    return d.toISOString().slice(0, 10);
+  };
+
+  var images = {
+    salmon: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=900&q=85",
+    bowl: "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=900&q=85",
+    toast: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=900&q=85",
+    pasta: "https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?auto=format&fit=crop&w=900&q=85",
+    salad: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85",
+    training: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1000&q=85"
+  };
+
+  function seed() {
+    return {
+      profile: { name: "Эля", target: 52, goal: "Плавное снижение веса", calories: 1500, protein: 110, fat: 55, carbs: 145 },
+      meals: [
+        { id: "m1", name: "Омлет с сыром и авокадо", date: iso(), kcal: 390, p: 27, f: 27, c: 12, eaten: true, image: images.toast },
+        { id: "m2", name: "Курица с рисом и овощами", date: iso(), kcal: 430, p: 38, f: 10, c: 46, eaten: true, image: images.bowl },
+        { id: "m3", name: "Греческий йогурт с ягодами", date: iso(), kcal: 180, p: 18, f: 4, c: 18, eaten: false, image: images.bowl },
+        { id: "m4", name: "Лосось с картофелем", date: iso(), kcal: 470, p: 34, f: 22, c: 34, eaten: false, image: images.salmon }
+      ],
+      dishes: [
+        { id: "d1", name: "Омлет с сыром и авокадо", kcal: 390, p: 27, f: 27, c: 12, tag: "Завтрак", image: images.toast },
+        { id: "d2", name: "Курица с рисом и овощами", kcal: 430, p: 38, f: 10, c: 46, tag: "Высокий белок", image: images.bowl },
+        { id: "d3", name: "Греческий йогурт с ягодами", kcal: 180, p: 18, f: 4, c: 18, tag: "Перекус", image: images.bowl },
+        { id: "d4", name: "Тост с тунцом и авокадо", kcal: 360, p: 31, f: 15, c: 28, tag: "Высокий белок", image: images.toast },
+        { id: "d5", name: "Паста с курицей", kcal: 510, p: 35, f: 14, c: 58, tag: "Ужин", image: images.pasta },
+        { id: "d6", name: "Салат с тунцом", kcal: 290, p: 30, f: 12, c: 15, tag: "Лёгкий", image: images.salad }
+      ],
+      products: [
+        { id: "p1", name: "Тунец", kcal: 132, p: 29, f: 1, c: 0, tag: "Белок", image: images.salmon },
+        { id: "p2", name: "Авокадо", kcal: 160, p: 2, f: 15, c: 9, tag: "Полезные жиры", image: images.toast },
+        { id: "p3", name: "Греческий йогурт", kcal: 73, p: 10, f: 2, c: 4, tag: "Белок", image: images.bowl },
+        { id: "p4", name: "Рис", kcal: 130, p: 3, f: 0, c: 28, tag: "Углеводы", image: images.bowl }
+      ],
+      fridge: [
+        { id: "p1", have: true }, { id: "p2", have: true }, { id: "p3", have: true }, { id: "p4", have: false }
+      ],
+      exercises: [
+        { id: "e1", name: "Приседания с гантелями", muscle: "Ноги · ягодицы", equipment: "Гантели", sets: 4, reps: 12 },
+        { id: "e2", name: "Ягодичный мост", muscle: "Ягодицы", equipment: "Скамья", sets: 4, reps: 12 },
+        { id: "e3", name: "Тяга гантели", muscle: "Спина", equipment: "Гантель", sets: 3, reps: 10 },
+        { id: "e4", name: "Жим гантелей лёжа", muscle: "Грудь · руки", equipment: "Гантели", sets: 3, reps: 10 }
+      ],
+      workouts: [
+        { id: "w1", name: "Ягодицы + ноги", exerciseIds: ["e1", "e2"], minutes: 45, image: images.training },
+        { id: "w2", name: "Верх тела", exerciseIds: ["e3", "e4"], minutes: 35, image: images.training }
+      ],
+      workoutPlan: [{ id: "wp1", date: iso(), workoutId: "w1", done: false }],
+      logs: [
+        { id: "l1", exerciseId: "e1", date: iso(-21), weight: 8, reps: 10 },
+        { id: "l2", exerciseId: "e1", date: iso(-14), weight: 10, reps: 10 },
+        { id: "l3", exerciseId: "e1", date: iso(-7), weight: 12, reps: 10 },
+        { id: "l4", exerciseId: "e1", date: iso(), weight: 14, reps: 10 }
+      ],
+      weights: [{ date: iso(-21), value: 55.1 }, { date: iso(-14), value: 54.5 }, { date: iso(-7), value: 53.7 }, { date: iso(), value: 53.2 }],
+      measures: [{ date: iso(-21), waist: 70, hips: 98, chest: 91 }, { date: iso(-14), waist: 69, hips: 97, chest: 90 }, { date: iso(-7), waist: 68, hips: 97, chest: 90 }, { date: iso(), waist: 67, hips: 96, chest: 89 }],
+      settings: { nutrition: true, training: true, progress: true }
+    };
   }
-}
-render();
+
+  var state = null;
+  try { state = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { state = null; }
+  if (!state || !state.profile || !state.meals || !state.dishes || !state.exercises) state = seed();
+
+  var page = "home";
+  var sub = { nutrition: "plan", training: "plan" };
+
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, function (x) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[x];
+    });
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function currentMeals() { return state.meals.filter(function (m) { return m.date === iso(); }); }
+  function totals() {
+    return currentMeals().reduce(function (a, m) {
+      if (m.eaten) { a.k += m.kcal; a.p += m.p; a.f += m.f; a.c += m.c; }
+      return a;
+    }, { k: 0, p: 0, f: 0, c: 0 });
+  }
+  function pct(a, b) { return Math.max(0, Math.min(100, b ? a / b * 100 : 0)); }
+  function navIcon(name) {
+    var paths = {
+      home: '<path d="M3 10.7 12 3l9 7.7v8.1a1.2 1.2 0 0 1-1.2 1.2h-5.1v-6.1h-5.4V20H4.2A1.2 1.2 0 0 1 3 18.8z"/>',
+      food: '<path d="M7 3v7M4.5 3v7M9.5 3v7M7 10v11M16 3v18M16 3c2.2 0 3.5 1.8 3.5 4.1S18.2 11 16 11"/>',
+      gym: '<path d="M6 7v10M3.5 9v6M18 7v10M20.5 9v6M6 12h12"/>',
+      chart: '<path d="M4 19V9M9.3 19V5M14.7 19v-7M20 19V3"/><path d="M3 21h18"/>',
+      user: '<circle cx="12" cy="8" r="3.5"/><path d="M5 21c.7-4 2.9-6 7-6s6.3 2 7 6"/>'
+    };
+    return '<svg viewBox="0 0 24 24" aria-hidden="true">' + paths[name] + '</svg>';
+  }
+  function iconButton(icon, label) { return '<button class="iconBtn" title="' + esc(label) + '">' + icon + '</button>'; }
+
+  function shell(content) {
+    var items = [
+      ["home", "Главная", "home"],
+      ["nutrition", "Питание", "food"],
+      ["training", "Тренировки", "gym"],
+      ["progress", "Прогресс", "chart"],
+      ["settings", "Профиль", "user"]
+    ].filter(function (x) { return x[0] === "home" || x[0] === "settings" || state.settings[x[0]] !== false; });
+
+    var nav = items.map(function (x) {
+      return '<button class="' + (page === x[0] ? "active" : "") + '" onclick="MDB.go(\'' + x[0] + '\')"><span class="navIcon">' + navIcon(x[2]) + '</span><span>' + x[1] + '</span></button>';
+    }).join("");
+
+    return '<div class="appShell">' +
+      '<aside class="desktopNav"><div class="logo">my dream <b>body</b><i>✦</i></div><div class="navLinks">' + nav + '</div><div class="navQuote"><span>YOUR BODY</span><strong>YOUR<br>PROJECT</strong><small>♡</small></div></aside>' +
+      '<main class="pageMain"><header class="topHeader"><div class="searchBox">⌕ <span>Найти в My Dream Body</span></div><div class="headerActions">' + iconButton("♡", "Избранное") + iconButton("♧", "Уведомления") + '<button class="profileMini" onclick="MDB.go(\'settings\')"><span>' + esc(state.profile.name.charAt(0)) + '</span>' + esc(state.profile.name) + '</button></div></header>' +
+      '<div class="mobileHeader"><div class="logo">my dream <b>body</b></div><button class="roundIcon">♡</button></div>' +
+      content +
+      '</main><nav class="mobileNav">' + nav + '<button class="addFloat" onclick="MDB.quickAdd()">＋</button></nav></div>';
+  }
+
+  function title(title, subtitle) {
+    return '<div class="pageTitle"><div><span class="eyebrow">MY DREAM BODY</span><h1>' + title + ' <em>✦</em></h1><p>' + subtitle + '</p></div><button class="todayPill">' + new Date().toLocaleDateString("ru-RU", { day: "numeric", month: "short" }) + ' <span>⌄</span></button></div>';
+  }
+
+  function progressRing(value, max) {
+    return '<div class="progressRing" style="--value:' + pct(value, max) + '%"><div><strong>' + Math.max(0, Math.round(max - value)) + '</strong><span>ккал осталось</span></div></div>';
+  }
+
+  function macroCard(name, value, max, cls) {
+    return '<div class="macroCard ' + cls + '"><div class="macroTop"><span>' + name + '</span><b>' + value + '<small> / ' + max + ' г</small></b></div><div class="macroTrack"><i style="width:' + pct(value, max) + '%"></i></div></div>';
+  }
+
+  function home() {
+    var t = totals(), p = state.profile, meals = currentMeals(), weight = state.weights[state.weights.length - 1].value;
+    var mealRows = meals.map(function (m) {
+      return '<div class="mealRow"><img src="' + m.image + '"><div><strong>' + esc(m.name) + '</strong><span>' + m.kcal + ' ккал · Б ' + m.p + ' · Ж ' + m.f + ' · У ' + m.c + '</span></div><button class="mealCheck ' + (m.eaten ? "done" : "") + '" onclick="MDB.eat(\'' + m.id + '\')">' + (m.eaten ? "✓" : "") + '</button></div>';
+    }).join("");
+
+    return shell(title("Привет, " + esc(p.name) + "!", "Сегодня не про идеальность. Сегодня — про тебя.") +
+      '<section class="heroGrid">' +
+        '<article class="heroCard calorieHero"><div><span class="cardKicker">TODAY'S NUTRITION</span><h2>Твой баланс<br>на сегодня</h2><p>Спокойный контроль без лишнего давления.</p></div><div class="heroBottom">' + progressRing(t.k, p.cal) + '<div class="heroStats"><span>Съедено <b>' + t.k + '</b></span><span>Цель <b>' + p.cal + '</b></span></div></div></article>' +
+        '<article class="heroCard wellnessHero"><span class="sun">✦</span><span class="cardKicker">YOUR DAILY NOTE</span><h2>Маленькие<br>действия = <i>большой</i><br>результат.</h2><button onclick="MDB.go(\'progress\')">Мой прогресс <span>→</span></button></article>' +
+      '</section>' +
+      '<section class="dashboardGrid">' +
+        '<article class="panel macroPanel"><div class="panelHead"><div><span class="eyebrow">BALANCE</span><h3>БЖУ</h3></div><span class="statusDot">● today</span></div><div class="macroStack">' + macroCard("Белки", t.p, p.protein, "protein") + macroCard("Жиры", t.f, p.fat, "fat") + macroCard("Углеводы", t.c, p.carbs, "carbs") + '</div></article>' +
+        '<article class="panel mealPanel"><div class="panelHead"><div><span class="eyebrow">MEALS</span><h3>Питание сегодня</h3></div><button onclick="MDB.go(\'nutrition\')">Все →</button></div>' + mealRows + '<button class="wideAction" onclick="MDB.go(\'nutrition\')">+ Добавить в рацион</button></article>' +
+        '<article class="panel workoutPanel"><div class="panelHead"><div><span class="eyebrow">MOVEMENT</span><h3>Тренировка</h3></div><span class="tinyPill">45 MIN</span></div><div class="workoutMini"><img src="' + images.training + '"><div><span>Сегодня</span><h4>Ягодицы + ноги</h4><p>4 упражнения · сила</p><button onclick="MDB.go(\'training\')">Открыть →</button></div></div></article>' +
+        '<article class="panel weightPanel"><div class="panelHead"><div><span class="eyebrow">BODY LOG</span><h3>Вес</h3></div><button onclick="MDB.go(\'progress\')">Подробнее →</button></div><div class="weightNumber"><strong>' + weight + '</strong><span>кг</span><b>−1,9 кг</b></div><svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none"><path d="M5 82 C65 76, 80 62, 130 70 S210 82, 260 57 S350 68, 395 43 S470 45, 515 20"></path></svg></article>' +
+        '<article class="panel inspirationPanel"><div class="quoteMark">“</div><p>Не нужно становиться другой. Нужно каждый день выбирать ту версию себя, которой ты хочешь быть.</p><span>MY DREAM BODY · NOTE 01</span></article>' +
+      '</section>');
+  }
+
+  function nutrition() {
+    var tab = sub.nutrition;
+    var tabs = [["plan","План"],["kbu","КБЖУ"],["dishes","Блюда"],["products","Продукты"],["fridge","Холодильник"],["shopping","Покупки"]];
+    var nav = tabs.map(function (x) { return '<button class="' + (tab === x[0] ? "selected" : "") + '" onclick="MDB.setSub(\'nutrition\',\'' + x[0] + '\')">' + x[1] + '</button>'; }).join("");
+    var body = tab === "plan" ? mealPlan() : tab === "kbu" ? kbu() : tab === "dishes" ? cardsLibrary(state.dishes, "Блюда", "dish") : tab === "products" ? cardsLibrary(state.products, "Продукты", "product") : fridge(tab === "shopping");
+    return shell(title("Питание", "Собери рацион заранее — и оставь голове меньше решений.") + '<div class="segmented">' + nav + '</div>' + body);
+  }
+
+  function mealPlan() {
+    var days = [-2,-1,0,1,2,3,4].map(function (n) {
+      var d = iso(n), dt = new Date(d), list = state.meals.filter(function (m) { return m.date === d; });
+      return '<div class="dayColumn ' + (n === 0 ? "selectedDay" : "") + '"><div class="dayDate"><span>' + dt.toLocaleDateString("ru-RU", { weekday: "short" }) + '</span><b>' + dt.getDate() + '</b></div>' + list.map(function (m) {
+        return '<div class="smallMeal"><img src="' + m.image + '"><div><strong>' + esc(m.name) + '</strong><span>' + m.kcal + ' ккал</span></div><button onclick="MDB.eat(\'' + m.id + '\')">' + (m.eaten ? "✓" : "○") + '</button></div>';
+      }).join("") + '<button class="plusLine" onclick="MDB.addMealPrompt(\'' + d + '\')">＋ добавить</button></div>';
+    }).join("");
+    return '<section class="panel plannerPanel"><div class="sectionTop"><div><span class="eyebrow">WEEK PLAN</span><h3>Рацион на неделю</h3></div><button class="primaryBtn" onclick="MDB.addMealPrompt(\'' + iso() + '\')">＋ блюдо</button></div><div class="daysScroller">' + days + '</div></section>';
+  }
+
+  function kbu() {
+    var t = totals(), p = state.profile;
+    return '<section class="kbuHero"><div><span class="eyebrow">TODAY</span><h2>Осталось на сегодня</h2><p>Подбирай еду по цифрам, но не забывай про удовольствие.</p></div><div class="remaining"><strong>' + Math.max(0,p.calories-t.k) + '</strong><span>ккал</span></div></section><div class="fourStats">' +
+      [["Белки",p.protein-t.p,p.protein,"г"],["Жиры",p.fat-t.f,p.fat,"г"],["Углеводы",p.carbs-t.c,p.carbs,"г"],["Калории",p.calories-t.k,p.calories,"ккал"]].map(function(x){return '<div><span>'+x[0]+'</span><strong>'+Math.max(0,Math.round(x[1]))+'</strong><small>'+x[3]+' осталось</small><i style="width:'+pct(x[1],x[2])+'%"></i></div>';}).join("") +
+      '</div><section class="panel suggestionPanel"><div class="sectionTop"><div><span class="eyebrow">MATCH YOUR MACROS</span><h3>Что можно добавить</h3></div></div>' + state.dishes.map(function(d){return '<div class="suggestion"><img src="'+d.image+'"><div><strong>'+esc(d.name)+'</strong><span>'+d.kcal+' ккал · Б '+d.p+' · Ж '+d.f+' · У '+d.c+'</span></div><button class="primaryBtn" onclick="MDB.addDish(\''+d.id+'\')">＋</button></div>';}).join("") + '</section>';
+  }
+
+  function cardsLibrary(list, heading, kind) {
+    return '<section class="panel libraryPanel"><div class="sectionTop"><div><span class="eyebrow">YOUR LIBRARY</span><h3>'+heading+'</h3></div><button class="primaryBtn" onclick="MDB.quickAdd(\''+kind+'\')">＋ добавить</button></div><div class="contentCards">'+list.map(function(x){return '<article class="contentCard"><img src="'+x.image+'"><div class="contentBody"><span class="tag">'+esc(x.tag)+'</span><h4>'+esc(x.name)+'</h4><p>'+x.kcal+' ккал · Б '+x.p+' · Ж '+x.f+' · У '+x.c+'</p><button class="outlineBtn" onclick="MDB.addDish(\''+x.id+'\')">В рацион</button></div></article>';}).join("")+'</div></section>';
+  }
+
+  function fridge(shopping) {
+    var list = state.fridge.map(function(r){var p=state.products.find(function(x){return x.id===r.id;});return p?{r:r,p:p}:null;}).filter(Boolean);
+    var have = list.filter(function(x){return x.r.have;});
+    var buy = list.filter(function(x){return !x.r.have;});
+    return '<section class="fridgeHero"><div><span class="eyebrow">'+(shopping?"SHOPPING LIST":"FRIDGE")+'</span><h2>'+(shopping?"Что нужно купить":"Что есть дома")+'</h2><p>'+(shopping?"Отмечай покупки — они вернутся в холодильник автоматически.":"Следи за базовыми продуктами для своего рациона.")+'</p></div><div class="fridgeBubble">'+(shopping?buy.length:have.length)+'<span>позиций</span></div></section><div class="fridgeGrid"><section class="panel"><div class="sectionTop"><h3>В наличии</h3></div>'+have.map(fridgeRow).join("")+'</section><section class="panel"><div class="sectionTop"><h3>Нужно купить</h3></div>'+buy.map(fridgeRow).join("")+'</section></div>';
+  }
+  function fridgeRow(x) { return '<div class="fridgeRow"><img src="'+x.p.image+'"><div><strong>'+esc(x.p.name)+'</strong><span>'+x.p.kcal+' ккал · '+esc(x.p.tag)+'</span></div><button onclick="MDB.toggleFridge(\''+x.p.id+'\')">'+(x.r.have?"Есть":"Куплено")+'</button></div>'; }
+
+  function training() {
+    var tab=sub.training, tabs=[["plan","План"],["exercises","Упражнения"],["workouts","Мои тренировки"],["progress","Прогресс"]];
+    var nav=tabs.map(function(x){return '<button class="'+(tab===x[0]?"selected":"")+'" onclick="MDB.setSub(\'training\',\''+x[0]+'\')">'+x[1]+'</button>';}).join("");
+    var body=tab==="plan"?trainPlan():tab==="exercises"?exerciseLibrary():tab==="workouts"?workoutLibrary():trainProgress();
+    return shell(title("Тренировки","Сила растёт там, где появляется система.")+'<div class="segmented">'+nav+'</div>'+body);
+  }
+  function trainPlan() {
+    var days=[0,1,2,3,4,5,6].map(function(n){var d=iso(n),dt=new Date(d), items=state.workoutPlan.filter(function(x){return x.date===d;});return '<div class="trainingDay '+(n===0?"selectedDay":"")+'"><div class="dayDate"><span>'+dt.toLocaleDateString("ru-RU",{weekday:"short"})+'</span><b>'+dt.getDate()+'</b></div>'+items.map(function(x){var w=state.workouts.find(function(z){return z.id===x.workoutId;});return '<div class="plannedWorkout"><img src="'+(w?w.image:images.training)+'"><div><strong>'+esc(w?w.name:"Тренировка")+'</strong><span>'+(w?w.minutes:45)+' мин · сила</span></div><button onclick="MDB.doneWorkout(\''+x.id+'\')">'+(x.done?"✓":"○")+'</button></div>';}).join("")+'<button class="plusLine" onclick="MDB.planWorkout(\''+d+'\')">＋ добавить</button></div>';}).join("");
+    return '<section class="panel plannerPanel"><div class="sectionTop"><div><span class="eyebrow">WEEK PLAN</span><h3>Расписание тренировок</h3></div><button class="primaryBtn" onclick="MDB.planWorkout(\''+iso()+'\')">＋ тренировка</button></div><div class="daysScroller">'+days+'</div></section>';
+  }
+  function exerciseLibrary() { return '<section class="panel libraryPanel"><div class="sectionTop"><div><span class="eyebrow">MOVEMENT LIBRARY</span><h3>Упражнения</h3></div><button class="primaryBtn" onclick="MDB.quickAdd(\'exercise\')">＋ добавить</button></div><div class="exerciseCards">'+state.exercises.map(function(e){return '<article><span class="numberCircle">'+(state.exercises.indexOf(e)+1)+'</span><div><span class="tag">'+esc(e.muscle)+'</span><h4>'+esc(e.name)+'</h4><p>'+esc(e.equipment)+' · '+e.sets+' × '+e.reps+'</p></div></article>';}).join("")+'</div></section>'; }
+  function workoutLibrary() { return '<section class="panel libraryPanel"><div class="sectionTop"><div><span class="eyebrow">WORKOUTS</span><h3>Мои тренировки</h3></div><button class="primaryBtn" onclick="MDB.quickAdd(\'workout\')">＋ создать</button></div><div class="workoutCards">'+state.workouts.map(function(w){return '<article><img src="'+w.image+'"><div><span class="tag">'+w.minutes+' MIN</span><h4>'+esc(w.name)+'</h4><p>'+w.exerciseIds.length+' упражнения</p></div></article>';}).join("")+'</div></section>'; }
+  function trainProgress() { return '<section class="panel"><div class="sectionTop"><div><span class="eyebrow">STRENGTH LOG</span><h3>Прогресс по упражнениям</h3></div><button class="primaryBtn" onclick="MDB.quickAdd(\'log\')">＋ результат</button></div><div class="logRows">'+state.logs.slice().reverse().map(function(l){var e=state.exercises.find(function(x){return x.id===l.exerciseId;});return '<div class="logRow"><div class="numberCircle">↗</div><div><strong>'+esc(e?e.name:"Упражнение")+'</strong><span>'+l.date+'</span></div><b>'+l.weight+' кг × '+l.reps+'</b></div>';}).join("")+'</div></section>'; }
+
+  function progress() {
+    var w=state.weights, m=state.measures, current=w[w.length-1].value, start=w[0].value;
+    return shell(title("Мой прогресс","Смотри на изменения не только в зеркале.")+'<div class="progressTabs"><button class="active">Неделя</button><button>Месяц</button><button>Год</button></div><section class="progressHero"><div><span class="eyebrow">CURRENT WEIGHT</span><div class="progressBig">'+current+' <small>кг</small></div><p>Изменение с первой записи <b>'+(current-start).toFixed(1)+' кг</b></p></div><div class="miniGoal"><span>Цель</span><strong>'+state.profile.target+' кг</strong><i><b style="width:'+pct(state.profile.target,current-start+current)+'%"></b></i></div></section><div class="bodyStats"><div><span>Талия</span><strong>'+m[m.length-1].waist+' см</strong><small>−3 см</small></div><div><span>Бёдра</span><strong>'+m[m.length-1].hips+' см</strong><small>−2 см</small></div><div><span>Грудь</span><strong>'+m[m.length-1].chest+' см</strong><small>−2 см</small></div></div><section class="panel chartPanel"><div class="sectionTop"><div><span class="eyebrow">WEIGHT JOURNAL</span><h3>Динамика веса</h3></div><button class="primaryBtn" onclick="MDB.quickAdd(\'weight\')">＋ запись</button></div><svg class="bigChart" viewBox="0 0 900 260" preserveAspectRatio="none"><path d="M10 210 C130 200, 150 155, 250 165 S380 190, 480 130 S610 125, 700 75 S810 70, 890 35"></path></svg>'+w.slice().reverse().map(function(x){return '<div class="logRow"><div><strong>'+x.date+'</strong></div><b>'+x.value+' кг</b></div>';}).join("")+'</section><section class="panel"><div class="sectionTop"><div><span class="eyebrow">BODY MEASUREMENTS</span><h3>Объёмы</h3></div><button class="primaryBtn" onclick="MDB.quickAdd(\'measure\')">＋ запись</button></div>'+m.slice().reverse().map(function(x){return '<div class="logRow"><div><strong>'+x.date+'</strong></div><span>Талия '+x.waist+' · Бёдра '+x.hips+' · Грудь '+x.chest+' см</span></div>';}).join("")+'</section>');
+  }
+
+  function settings() {
+    var p=state.profile;
+    return shell(title("Профиль","Настрой пространство под себя.")+'<div class="settingsGrid"><section class="panel profileCard"><div class="avatarLarge">'+esc(p.name.charAt(0))+'</div><span class="eyebrow">MY PROFILE</span><h2>'+esc(p.name)+'</h2><p>'+esc(p.goal)+'</p><form onsubmit="MDB.saveProfile(event)"><label>Имя<input name="name" value="'+esc(p.name)+'"></label><label>Целевой вес<input name="target" type="number" value="'+p.target+'"></label><label>Цель<input name="goal" value="'+esc(p.goal)+'"></label><button class="primaryWide">Сохранить изменения</button></form></section><section class="panel"><div class="sectionTop"><div><span class="eyebrow">DAILY TARGETS</span><h3>Мои цели</h3></div></div><form class="targetForm" onsubmit="MDB.saveTargets(event)"><label>Калории<input name="cal" type="number" value="'+p.calories+'"></label><label>Белки<input name="pro" type="number" value="'+p.protein+'"></label><label>Жиры<input name="fat" type="number" value="'+p.fat+'"></label><label>Углеводы<input name="carb" type="number" value="'+p.carbs+'"></label><button class="primaryWide">Обновить цели</button></form></section><section class="panel"><div class="sectionTop"><div><span class="eyebrow">APP SECTIONS</span><h3>Разделы</h3></div></div>'+["nutrition","training","progress"].map(function(k){return '<div class="settingRow"><span>'+({nutrition:"Питание",training:"Тренировки",progress:"Прогресс"}[k])+'</span><button class="switch '+(state.settings[k]?"on":"")+'" onclick="MDB.toggleSection(\''+k+'\')"><i></i></button></div>';}).join("")+'</section><section class="panel moodPanel"><span class="eyebrow">YOUR SPACE</span><h3>Это приложение — про твою жизнь.</h3><p>Планы, питание, тренировки и прогресс собраны в одном спокойном пространстве.</p><div class="moodOrb">✦</div></section></div>');
+  }
+
+  function modal(titleText, fields, onSave) {
+    var form='<form id="mdbForm">'+fields.map(function(f){return '<label>'+f.label+(f.type==="select"?'<select name="'+f.name+'">'+f.options.map(function(o){return '<option value="'+esc(o[0])+'">'+esc(o[1])+'</option>';}).join("")+'</select>':'<input name="'+f.name+'" type="'+(f.type||"text")+'" value="'+esc(f.value||"")+'" '+(f.required?"required":"")+'>')+'</label>';}).join("")+'<button class="primaryWide">Сохранить</button></form>';
+    document.body.insertAdjacentHTML("beforeend",'<div class="modalShade"><div class="modalBox"><div class="modalTitle"><div><span class="eyebrow">QUICK ADD</span><h2>'+titleText+'</h2></div><button type="button" class="roundIcon" onclick="MDB.closeModal()">×</button></div>'+form+'</div></div>');
+    document.getElementById("mdbForm").onsubmit=function(e){e.preventDefault();onSave(new FormData(e.target));closeModal();render();};
+  }
+  function closeModal(){var x=document.querySelector(".modalShade");if(x)x.remove();}
+  function addMealPrompt(date){modal("Добавить блюдо",[{label:"Блюдо",name:"name",required:true},{label:"Дата",name:"date",type:"date",value:date},{label:"Калории",name:"kcal",type:"number",required:true},{label:"Белки",name:"p",type:"number"},{label:"Жиры",name:"f",type:"number"},{label:"Углеводы",name:"c",type:"number"}],function(f){state.meals.push({id:"m"+Date.now(),name:f.get("name"),date:f.get("date"),kcal:+f.get("kcal"),p:+f.get("p")||0,f:+f.get("f")||0,c:+f.get("c")||0,eaten:false,image:images.bowl});save();});}
+  function addDish(id){var d=state.dishes.concat(state.products).find(function(x){return x.id===id;});if(d){state.meals.push({id:"m"+Date.now(),name:d.name,date:iso(),kcal:d.kcal,p:d.p,f:d.f,c:d.c,eaten:false,image:d.image});save();render();}}
+  function quickAdd(kind){if(kind==="exercise"){modal("Новое упражнение",[{label:"Название",name:"name",required:true},{label:"Группа мышц",name:"muscle"},{label:"Оборудование",name:"equipment"},{label:"Подходы",name:"sets",type:"number"},{label:"Повторения",name:"reps",type:"number"}],function(f){state.exercises.push({id:"e"+Date.now(),name:f.get("name"),muscle:f.get("muscle"),equipment:f.get("equipment"),sets:+f.get("sets")||3,reps:+f.get("reps")||10});save();});return;}
+    if(kind==="workout"){modal("Новая тренировка",[{label:"Название",name:"name",required:true},{label:"Длительность, мин",name:"minutes",type:"number"}],function(f){state.workouts.push({id:"w"+Date.now(),name:f.get("name"),minutes:+f.get("minutes")||30,exerciseIds:[],image:images.training});save();});return;}
+    if(kind==="log"){modal("Результат",[{label:"Упражнение",name:"exerciseId",type:"select",options:state.exercises.map(function(e){return[e.id,e.name];})},{label:"Вес, кг",name:"weight",type:"number"},{label:"Повторения",name:"reps",type:"number"}],function(f){state.logs.push({id:"l"+Date.now(),exerciseId:f.get("exerciseId"),date:iso(),weight:+f.get("weight"),reps:+f.get("reps")});save();});return;}
+    if(kind==="weight"){modal("Новый вес",[{label:"Дата",name:"date",type:"date",value:iso()},{label:"Вес, кг",name:"value",type:"number",required:true}],function(f){state.weights.push({date:f.get("date"),value:+f.get("value")});save();});return;}
+    if(kind==="measure"){modal("Новые объёмы",[{label:"Талия, см",name:"waist",type:"number"},{label:"Бёдра, см",name:"hips",type:"number"},{label:"Грудь, см",name:"chest",type:"number"}],function(f){state.measures.push({date:iso(),waist:+f.get("waist"),hips:+f.get("hips"),chest:+f.get("chest")});save();});return;}
+    if(kind==="food"||kind==="product"){addMealPrompt(iso());return;}
+    if(!kind){addMealPrompt(iso());}
+  }
+  function planWorkout(date){if(!state.workouts.length)return;modal("Запланировать тренировку",[{label:"Тренировка",name:"workoutId",type:"select",options:state.workouts.map(function(w){return[w.id,w.name];})},{label:"Дата",name:"date",type:"date",value:date}],function(f){state.workoutPlan.push({id:"wp"+Date.now(),date:f.get("date"),workoutId:f.get("workoutId"),done:false});save();});}
+  function eat(id){var m=state.meals.find(function(x){return x.id===id;});if(m){m.eaten=!m.eaten;save();render();}}
+  function doneWorkout(id){var x=state.workoutPlan.find(function(a){return a.id===id;});if(x){x.done=!x.done;save();render();}}
+  function toggleFridge(id){var x=state.fridge.find(function(a){return a.id===id;});if(x){x.have=!x.have;save();render();}}
+  function saveProfile(e){e.preventDefault();var f=new FormData(e.target);state.profile.name=f.get("name");state.profile.target=+f.get("target");state.profile.goal=f.get("goal");save();render();}
+  function saveTargets(e){e.preventDefault();var f=new FormData(e.target);state.profile.calories=+f.get("cal");state.profile.protein=+f.get("pro");state.profile.fat=+f.get("fat");state.profile.carbs=+f.get("carb");save();render();}
+  function toggleSection(k){state.settings[k]=!state.settings[k];save();render();}
+  function setSub(k,v){sub[k]=v;render();}
+  function go(p){page=p;if(p==="nutrition"&&!sub.nutrition)sub.nutrition="plan";if(p==="training"&&!sub.training)sub.training="plan";render();}
+  function render(){var root=document.getElementById("app");if(!root)return;root.innerHTML=page==="home"?home():page==="nutrition"?nutrition():page==="training"?training():page==="progress"?progress():settings();}
+  window.MDB={go:go,setSub:setSub,eat:eat,doneWorkout:doneWorkout,toggleFridge:toggleFridge,addDish:addDish,addMealPrompt:addMealPrompt,quickAdd:quickAdd,planWorkout:planWorkout,saveProfile:saveProfile,saveTargets:saveTargets,toggleSection:toggleSection,closeModal:closeModal};
+  render();
+})();

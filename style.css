@@ -171,3 +171,47 @@ button,input,select{font:inherit}button{cursor:pointer}img{display:block;max-wid
   .mobileNav{left:0;right:0;bottom:0;height:76px;border-radius:24px 24px 0 0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));}
   .pageMain{padding-bottom:105px}
 }
+
+
+/* Final mobile polish: compact balance card, lighter BJU, evenly spaced bottom nav. */
+@media(max-width:760px){
+  .nutritionSummaryPanel .panelHead h3{font-size:20px}
+  .calorieOverview{grid-template-columns:1fr 1.05fr 1fr;gap:2px;margin:14px 0 13px}
+  .calorieSide strong{font-size:24px;letter-spacing:-.5px}
+  .calorieSide span{font-size:13px!important}
+  .calorieRing{width:108px;height:108px;background:conic-gradient(#a99aee var(--progress),#eeeaf7 0);transform:rotate(-38deg)}
+  .calorieRing:before{inset:8px}
+  .calorieRing strong{font-size:27px;letter-spacing:-.5px}
+  .calorieRing span{font-size:12px!important;margin-top:3px}
+  .summaryMacros{gap:8px}
+  .summaryMacro{
+    min-height:78px;
+    padding:11px 10px;
+    border-radius:15px;
+    background:#faf9fc!important;
+    border:1px solid #eeeaf3;
+    justify-content:flex-start;
+  }
+  .summaryMacro span{font-size:12px!important;color:#85818e}
+  .summaryMacro strong{font-size:15px;margin-top:8px;font-weight:700}
+  .summaryTrack{height:5px;margin-top:9px;background:#eeeaf3}
+  .summaryMacro.carbs{border-top:3px solid #e994a7}
+  .summaryMacro.protein{border-top:3px solid #a99aee}
+  .summaryMacro.fat{border-top:3px solid #eab394}
+
+  .mobileNav{
+    grid-template-columns:repeat(5,1fr);
+    left:0;
+    right:0;
+    bottom:0;
+    height:76px;
+    border-radius:24px 24px 0 0;
+    padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+  }
+  .mobileNav .addFloat{display:none!important}
+  .mobileNav button:not(.addFloat){
+    width:100%;
+    margin:0!important;
+    justify-self:stretch;
+  }
+}

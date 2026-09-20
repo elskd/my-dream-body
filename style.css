@@ -134,3 +134,40 @@ button,input,select{font:inherit}button{cursor:pointer}img{display:block;max-wid
   .calorieSummary strong{font-size:31px}
   .summaryMacro strong{font-size:18px}
 }
+
+
+/* Refined home balance card — inspired by the supplied reference, adapted to My Dream Body. */
+.nutritionSummaryPanel{margin-bottom:14px}
+.calorieOverview{display:grid;grid-template-columns:1fr 1.35fr 1fr;align-items:center;gap:8px;margin:18px 0 16px}
+.calorieSide{text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+.calorieSide strong{font-size:29px;line-height:1;font-weight:800;letter-spacing:-1px}
+.calorieSide span{font-size:14px!important;color:#85818e}
+.calorieRing{width:142px;height:142px;margin:auto;border-radius:50%;background:conic-gradient(#a99aee var(--progress),#eeeaf7 0);display:grid;place-items:center;position:relative;transform:rotate(-38deg)}
+.calorieRing:before{content:"";position:absolute;inset:10px;border-radius:50%;background:#fff}
+.calorieRing>div{position:relative;text-align:center;transform:rotate(38deg)}
+.calorieRing strong{display:block;font-size:34px;line-height:1;font-weight:800;letter-spacing:-1px}
+.calorieRing span{display:block;font-size:14px!important;color:#85818e;margin-top:5px}
+.summaryMacros{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.summaryMacro{border-radius:17px;padding:14px 13px;min-height:93px;display:flex;flex-direction:column;justify-content:space-between}
+.summaryMacro span{font-size:14px!important;color:#66616c}
+.summaryMacro strong{font-size:18px;line-height:1.1;margin-top:10px}
+.summaryMacro.carbs{background:#ffeef2}
+.summaryMacro.protein{background:#f0edff}
+.summaryMacro.fat{background:#fff0e9}
+.summaryTrack{height:6px;background:#fff9;border-radius:8px;margin-top:10px;overflow:hidden}
+.summaryTrack i{display:block;height:100%;background:#a99aee;border-radius:8px}
+.summaryMacro.carbs .summaryTrack i{background:#e994a7}
+.summaryMacro.fat .summaryTrack i{background:#eab394}
+@media(max-width:760px){
+  .nutritionSummaryPanel{margin-bottom:9px}
+  .calorieOverview{grid-template-columns:1fr 1.2fr 1fr;gap:3px;margin:18px 0 15px}
+  .calorieSide strong{font-size:27px}
+  .calorieRing{width:132px;height:132px}
+  .calorieRing strong{font-size:32px}
+  .summaryMacros{gap:7px}
+  .summaryMacro{min-height:91px;padding:13px 10px}
+  .summaryMacro strong{font-size:16px}
+  .summaryMacro span{font-size:13px!important}
+  .mobileNav{left:0;right:0;bottom:0;height:76px;border-radius:24px 24px 0 0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));}
+  .pageMain{padding-bottom:105px}
+}

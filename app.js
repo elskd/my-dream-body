@@ -138,20 +138,24 @@
 
   function home() {
     var t = totals(), p = state.profile, meals = currentMeals(), weight = state.weights[state.weights.length - 1].value;
+    var remaining = Math.max(0, p.calories - t.k);
+    var eatenPct = pct(t.k, p.calories);
     var mealRows = meals.map(function (m) {
       return '<div class="mealRow"><img src="' + m.image + '"><div><strong>' + esc(m.name) + '</strong><span>' + m.kcal + ' ккал · Б ' + m.p + ' · Ж ' + m.f + ' · У ' + m.c + '</span></div><button class="mealCheck ' + (m.eaten ? "done" : "") + '" onclick="MDB.eat(\'' + m.id + '\')">' + (m.eaten ? "✓" : "") + '</button></div>';
     }).join("");
 
     return shell(title("Привет, " + esc(p.name) + "!", "Сегодня не про идеальность. Сегодня — про тебя.") +
       '<section class="panel nutritionSummaryPanel">' +
-        '<div class="panelHead"><div><span class="eyebrow">TODAY NUTRITION</span><h3>Съедено сегодня</h3></div><span class="statusDot">● today</span></div>' +
-        '<div class="nutritionSummary">' +
-          '<div class="calorieSummary"><span>Калории</span><strong>' + t.k + '</strong><small>ккал</small></div>' +
-          '<div class="summaryMacros">' +
-            '<div class="summaryMacro protein"><span>Белки</span><strong>' + t.p + ' г</strong></div>' +
-            '<div class="summaryMacro fat"><span>Жиры</span><strong>' + t.f + ' г</strong></div>' +
-            '<div class="summaryMacro carbs"><span>Углеводы</span><strong>' + t.c + ' г</strong></div>' +
-          '</div>' +
+        '<div class="panelHead"><div><span class="eyebrow">TODAY NUTRITION</span><h3>Твой баланс</h3></div><span class="statusDot">● today</span></div>' +
+        '<div class="calorieOverview">' +
+          '<div class="calorieSide"><strong>' + t.k + '</strong><span>Съедено</span></div>' +
+          '<div class="calorieRing" style="--progress:' + eatenPct + '%"><div><strong>' + remaining + '</strong><span>Осталось</span></div></div>' +
+          '<div class="calorieSide"><strong>0</strong><span>Сожжено</span></div>' +
+        '</div>' +
+        '<div class="summaryMacros">' +
+          '<div class="summaryMacro carbs"><span>Углеводы</span><div class="summaryTrack"><i style="width:' + pct(t.c,p.carbs) + '%"></i></div><strong>' + t.c + ' / ' + p.carbs + ' г</strong></div>' +
+          '<div class="summaryMacro protein"><span>Белки</span><div class="summaryTrack"><i style="width:' + pct(t.p,p.protein) + '%"></i></div><strong>' + t.p + ' / ' + p.protein + ' г</strong></div>' +
+          '<div class="summaryMacro fat"><span>Жиры</span><div class="summaryTrack"><i style="width:' + pct(t.f,p.fat) + '%"></i></div><strong>' + t.f + ' / ' + p.fat + ' г</strong></div>' +
         '</div>' +
       '</section>' +
       '<section class="dashboardGrid">' +

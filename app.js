@@ -143,19 +143,23 @@
     }).join("");
 
     return shell(title("Привет, " + esc(p.name) + "!", "Сегодня не про идеальность. Сегодня — про тебя.") +
-      '<section class="heroGrid">' +
-        '<article class="heroCard calorieHero"><div><span class="cardKicker">TODAY NUTRITION</span><h2>Твой баланс<br>на сегодня</h2><p>Спокойный контроль без лишнего давления.</p></div><div class="heroBottom">' + progressRing(t.k, p.cal) + '<div class="heroStats"><span>Съедено <b>' + t.k + '</b></span><span>Цель <b>' + p.cal + '</b></span></div></div></article>' +
-        '<article class="heroCard wellnessHero"><span class="sun">✦</span><span class="cardKicker">YOUR DAILY NOTE</span><h2>Маленькие<br>действия = <i>большой</i><br>результат.</h2><button onclick="MDB.go(\'progress\')">Мой прогресс <span>→</span></button></article>' +
+      '<section class="panel nutritionSummaryPanel">' +
+        '<div class="panelHead"><div><span class="eyebrow">TODAY NUTRITION</span><h3>Съедено сегодня</h3></div><span class="statusDot">● today</span></div>' +
+        '<div class="nutritionSummary">' +
+          '<div class="calorieSummary"><span>Калории</span><strong>' + t.k + '</strong><small>ккал</small></div>' +
+          '<div class="summaryMacros">' +
+            '<div class="summaryMacro protein"><span>Белки</span><strong>' + t.p + ' г</strong></div>' +
+            '<div class="summaryMacro fat"><span>Жиры</span><strong>' + t.f + ' г</strong></div>' +
+            '<div class="summaryMacro carbs"><span>Углеводы</span><strong>' + t.c + ' г</strong></div>' +
+          '</div>' +
+        '</div>' +
       '</section>' +
       '<section class="dashboardGrid">' +
-        '<article class="panel macroPanel"><div class="panelHead"><div><span class="eyebrow">BALANCE</span><h3>БЖУ</h3></div><span class="statusDot">● today</span></div><div class="macroStack">' + macroCard("Белки", t.p, p.protein, "protein") + macroCard("Жиры", t.f, p.fat, "fat") + macroCard("Углеводы", t.c, p.carbs, "carbs") + '</div></article>' +
         '<article class="panel mealPanel"><div class="panelHead"><div><span class="eyebrow">MEALS</span><h3>Питание сегодня</h3></div><button onclick="MDB.go(\'nutrition\')">Все →</button></div>' + mealRows + '<button class="wideAction" onclick="MDB.go(\'nutrition\')">+ Добавить в рацион</button></article>' +
         '<article class="panel workoutPanel"><div class="panelHead"><div><span class="eyebrow">MOVEMENT</span><h3>Тренировка</h3></div><span class="tinyPill">45 MIN</span></div><div class="workoutMini"><img src="' + images.training + '"><div><span>Сегодня</span><h4>Ягодицы + ноги</h4><p>4 упражнения · сила</p><button onclick="MDB.go(\'training\')">Открыть →</button></div></div></article>' +
         '<article class="panel weightPanel"><div class="panelHead"><div><span class="eyebrow">BODY LOG</span><h3>Вес</h3></div><button onclick="MDB.go(\'progress\')">Подробнее →</button></div><div class="weightNumber"><strong>' + weight + '</strong><span>кг</span><b>−1,9 кг</b></div><svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none"><path d="M5 82 C65 76, 80 62, 130 70 S210 82, 260 57 S350 68, 395 43 S470 45, 515 20"></path></svg></article>' +
-        '<article class="panel inspirationPanel"><div class="quoteMark">“</div><p>Не нужно становиться другой. Нужно каждый день выбирать ту версию себя, которой ты хочешь быть.</p><span>MY DREAM BODY · NOTE 01</span></article>' +
       '</section>');
   }
-
   function nutrition() {
     var tab = sub.nutrition;
     var tabs = [["plan","План"],["kbu","КБЖУ"],["dishes","Блюда"],["products","Продукты"],["fridge","Холодильник"],["shopping","Покупки"]];

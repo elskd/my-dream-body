@@ -109,3 +109,28 @@ button,input,select{font:inherit}button{cursor:pointer}img{display:block;max-wid
   font-size: 14px !important;
   line-height: 1.45;
 }
+
+
+/* Home nutrition summary: one combined block for calories + macros. */
+.nutritionSummaryPanel{margin-bottom:14px}
+.nutritionSummary{display:grid;grid-template-columns:1.05fr 2fr;gap:12px;margin-top:16px}
+.calorieSummary{background:linear-gradient(135deg,#eee9ff,#f7e8f3);border-radius:18px;padding:18px 20px;display:flex;align-items:baseline;gap:7px;min-height:110px}
+.calorieSummary span{display:block;width:100%;font-size:14px!important;color:#77717e}
+.calorieSummary strong{font-size:34px;line-height:1;font-weight:800;letter-spacing:-1px}
+.calorieSummary small{font-size:14px!important;color:#89838e}
+.summaryMacros{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.summaryMacro{border-radius:18px;padding:18px 15px;display:flex;flex-direction:column;justify-content:space-between;min-height:110px}
+.summaryMacro span{font-size:14px!important;color:#77717e}
+.summaryMacro strong{font-size:22px;line-height:1.1;margin-top:12px}
+.summaryMacro.protein{background:#f0edff}
+.summaryMacro.fat{background:#fff0e9}
+.summaryMacro.carbs{background:#ffeef2}
+@media(max-width:760px){
+  .nutritionSummaryPanel{margin-bottom:9px}
+  .nutritionSummary{grid-template-columns:1fr;gap:9px;margin-top:13px}
+  .calorieSummary{min-height:92px;padding:16px}
+  .summaryMacros{gap:7px}
+  .summaryMacro{min-height:82px;padding:14px 11px}
+  .calorieSummary strong{font-size:31px}
+  .summaryMacro strong{font-size:18px}
+}
